@@ -13,8 +13,8 @@ cd MirrorTestRepo4Blog.git
 ```bash
 git remote set-url --push origin https://github.com/NoLogig/MirrorOutputRepo4Blog.git
 ```
-** ```git remote -v ``` zeigt die fetch/- und push-URL an.**
-
+**Die fetch/- und push-URL anzeigen lassen.**
+```git remote -v ``` 
 ## 3. Fertig
 fetch, push ausführen, um die Repos zu vergleichen und ggf. zu aktualisieren 
 ```bash
