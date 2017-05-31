@@ -7,14 +7,15 @@ Test: Spiegel Repository
 git clone --mirror https://github.com/NoLogig/MirrorTestRepo4Blog.git 
 cd MirrorTestRepo4Blog.git
 ```
-
 ## 2. Push-URL ändern 
 --push Parameter ändert nur die Push-URL. Die Fetsh-URL bleibt natürlich unverändert.
 ```bash
 git remote set-url --push origin https://github.com/NoLogig/MirrorOutputRepo4Blog.git
 ```
-**Die fetch/- und push-URL anzeigen lassen.**
-```git remote -v ``` 
+**fetch/- und push-URL ausgeben lassen.**
+```bash
+git remote -v 
+```
 ## 3. Fertig
 fetch, push ausführen, um die Repos zu vergleichen und ggf. zu aktualisieren 
 ```bash
