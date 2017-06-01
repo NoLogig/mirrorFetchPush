@@ -23,7 +23,7 @@ git remote set-url --push origin https://github.com/NoLogig/MirrorOutputRepo4Blo
 git remote set-url --add --push origin https://github.com/Nutzer/weiteresRepository.git
 ```
 
-## Test
+## TestMe
 fetch, push ausführen, um die Repos zu vergleichen und ggf. zu aktualisieren, wenn die push-URL geändert wurde.
 ```bash
 git fetch -p origin && git push –mirror
