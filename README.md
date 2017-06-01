@@ -49,7 +49,7 @@ git fetch && git pull && git push
 ```
 
 ```bash
-git commit -m
+git commit -m meinText
 git push
 ```
 
