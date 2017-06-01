@@ -28,5 +28,3 @@ fetch, push ausführen, um die Repos zu vergleichen und ggf. zu aktualisieren, w
 ```bash
 git fetch -p origin && git push –mirror
 ```
-awdaw 
-awda 
