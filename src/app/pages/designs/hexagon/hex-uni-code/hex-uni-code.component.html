@@ -1,0 +1,73 @@
+<!-- Hexagon Uni-code &4x2B22 -->
+<div>
+  <span style="color: #0ff; font-size: 96px;">&#x2B22;</span>
+</div>
+
+<mat-divider></mat-divider>
+
+
+<mat-card>
+
+  <mat-slider [title]="this.test" thumbLabel="true" max="250" (change)="testFn();" style="width: 50vw;" [(ngModel)]="this.test"></mat-slider>
+
+  <button mat-raised-button (click)="changeCarousel();">ReCarousel</button>
+
+</mat-card>
+
+<div style="margin: 0 auto;">
+  <div class="scene scene--carousel">
+    <div class="carousel carousel--dynamic" #car>
+      <div class="carousel__cell">1</div>
+      <div class="carousel__cell">2</div>
+      <div class="carousel__cell">3</div>
+      <div class="carousel__cell">4</div>
+      <div class="carousel__cell">5</div>
+      <div class="carousel__cell">6</div>
+      <div class="carousel__cell">7</div>
+      <div class="carousel__cell">8</div>
+      <div class="carousel__cell">9</div>
+      <div class="carousel__cell">10</div>
+      <div class="carousel__cell">11</div>
+      <div class="carousel__cell">12</div>
+      <div class="carousel__cell">13</div>
+      <div class="carousel__cell">14</div>
+      <div class="carousel__cell">15</div>
+    </div>
+  </div>
+  <div class="dynamic-carousel-options">
+    <p>
+      <label>
+        Cells
+        <input class="cells-range" type="range" min="3" max="15" value="15" />
+      </label>
+    </p>
+    <p>
+      <button mat-raised-button (click)="prevCarousel(car);">Previous</button>
+      <button mat-raised-button (click)="nextCarousel(car);">Next</button>
+    </p>
+    <p>
+      Orientation:
+      <label>
+        <input type="radio" name="orientation" value="horizontal" checked />
+        horizontal
+      </label>
+      <label>
+        <input type="radio" name="orientation" value="vertical" />
+        vertical
+      </label>
+    </p>
+  </div>
+</div>
+<!-- 
+<div class="scene">
+  <div class="carousel carousel--step0">
+    <div class="carousel__cell">1</div>
+    <div class="carousel__cell">2</div>
+    <div class="carousel__cell">3</div>
+    <div class="carousel__cell">4</div>
+    <div class="carousel__cell">5</div>
+    <div class="carousel__cell">6</div>
+    <div class="carousel__cell">7</div>
+    <div class="carousel__cell">8</div>
+    <div class="carousel__cell">9</div>
+  </div>-->

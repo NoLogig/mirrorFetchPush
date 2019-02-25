@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Parallax Scrolling</title>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" 
+            crossorigin="anonymous"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            position: relative;
+        }
+
+        .para-section {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .hintergrundbild {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .para-text {
+            position: absolute;
+            top: 25%;
+            left: 25%;
+            width: 50%;
+            height: 600px;
+            z-index: 2;
+            background-color: rgba(239, 239, 239,0.7);
+        }
+
+        .hintergrundbild img {
+            min-height: 100%;
+            min-width: 100%;
+            width: 100%; /* Maxls change */
+        }
+
+        .para-text h1, .para-text h2, .para-text p, .para-text ul {
+            margin: 2%;
+        }
+
+        .testClass {
+            width: 100%;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="section1" class="container-fluid para-section">
+        <div class="hintergrundbild">
+            
+            <img src="https://www.html5rocks.com/en/tutorials/speed/img-compression/len_std.jpg" alt="Hintergrundbild Start" />
+        </div>
+        <div class="para-text">
+            <h1>Wilkommen</h1>
+            <p>Hier steht ein einleitender Satz.</p>
+            <p>Hintergrundbild:</p>
+        </div>
+    </div>
+    <!-- *********************************************************************** -->
+    <div id="section2" class="container-fluid para-section">
+        <div class="hintergrundbild">
+            <img src="https://www.html5rocks.com/en/tutorials/speed/img-compression/len_std.jpg" alt="Hintergrundbild Start" />
+        </div>
+        <div class="para-text">
+            <h1>Section 2</h1>
+            <p>Hier steht ein einleitender Satz.</p>
+            <p>Hintergrundbild:</p>
+        </div>
+    </div>
+    <!-- *********************************************************************** -->
+    <div id="section3" class="container-fluid para-section">
+        <div class="hintergrundbild">
+            <img src="https://www.html5rocks.com/en/tutorials/speed/img-compression/len_std.jpg" alt="Hintergrundbild Start" />
+        </div>
+        <div class="para-text">
+            <h1>Section 3</h1>
+            <p>Hier steht ein einleitender Satz.</p>
+            <p>Hintergrundbild:</p>
+            <p>Hier steht ein einleitender Satz.</p>
+            <p>Hintergrundbild:</p>
+        </div>
+    </div>
+    <script>
+        // Globale Variablen
+        var fensterHoehe = 0,
+            seitenHoehe = 0,
+            bewegungsTeiler = 1.5;	// Die Verschiebung der Hintergrundebene entspricht der gescrollten Hoehe geteilt durch diesen Wert.
+        // bewegungsTeiler = 1.1	<- schnelle Geschwindigkeit
+        // bewegungsTeiler >= 2		<- maessige Geschwindigkeit
+        // bewegungsTeiler < 1		<- komische Geschwindigkeit
+
+        // Berechnet die Hoehe des Fensters und der Seite
+        function bezieheDimensionen() {
+
+            fensterHoehe = $(window).height(),
+            seitenHoehe = $(document).height();
+            $('.para-section').css('height', fensterHoehe);
+
+            // $( '.hintergrundbild').css('height', fensterHoehe);
+            // $( '.hintergrundbild').css('width', "100%");
+            parallaxeVerschiebung();
+        }
+
+        function parallaxeVerschiebung() {
+
+            // Prueft die aktuelle Scrollposition
+            var gescrollt = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+            console.log(gescrollt);
+            // Berechnet die gegenwaertige Sektion
+            var gegenwaertigeSektion = Math.ceil(gescrollt / fensterHoehe);
+
+            // Berechnet den scrollabstand zur naechsten Sektion
+            var gescrolltInSektion = gescrollt - (Math.ceil(fensterHoehe * gegenwaertigeSektion));
+
+            // Berechnet Position des Blocks mit der Klasse "hintergrundbild" fuer die gegenwaertige Sektion
+            var bewegungAktiv = Math.round((gescrolltInSektion / bewegungsTeiler) + (fensterHoehe / bewegungsTeiler));
+
+            // Berechnet Position des Blocks mit der Klasse "hintergrundbild" fuer die kommende Sektion
+            var bewegungProaktiv = Math.round(gescrolltInSektion / bewegungsTeiler);
+
+            // Prueft in welcher Sektion wir uns befinden, repositioniert den inneliegenden Block mit der Klasse "hintergrundbild"
+            if (gegenwaertigeSektion == 1) {
+                $('#section1 .hintergrundbild').css('top', bewegungAktiv);
+            } else {
+                $('#section1 .hintergrundbild').css('top', bewegungProaktiv);
+            };
+
+            if (gegenwaertigeSektion == 2) {
+                $('#section2 .hintergrundbild').css('top', bewegungAktiv);
+            } else {
+                $('#section2 .hintergrundbild').css('top', bewegungProaktiv);
+            };
+
+            if (gegenwaertigeSektion == 3) {
+                $('#section3 .hintergrundbild').css('top', bewegungAktiv);
+            } else {
+                $('#section3 .hintergrundbild').css('top', bewegungProaktiv);
+            };
+
+            if (gegenwaertigeSektion == 4) {
+                $('#section41 .hintergrundbild').css('top', bewegungAktiv);
+            } else {
+                $('#section41 .hintergrundbild').css('top', bewegungProaktiv);
+            };
+
+            if (gegenwaertigeSektion == 5) {
+                $('#section42 .hintergrundbild').css('top', bewegungAktiv);
+            } else {
+                $('#section42 .hintergrundbild').css('top', bewegungProaktiv);
+            };
+        }
+
+        // Startet unsere Funktionen nachdem HTML geladen wurde
+        $(document).ready(function () {
+
+            // Bezieht die Dimensionen für die Berechnung der Parallaxen Verschiebung
+            bezieheDimensionen();
+
+            // Fuehrt die Funktion fuer Parallaxe Verschiebung beim scrollen aus
+            $(window).scroll(function () {
+
+                parallaxeVerschiebung();
+            });
+        });
+
+        // Bezieht neue Dimensionen bei Reskalierung des Browsers
+        $(window).resize(function () {
+            bezieheDimensionen();
+        });
+    </script>
+</body>
+</html>

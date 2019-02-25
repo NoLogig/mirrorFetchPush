@@ -1,0 +1,17 @@
+<mat-toolbar color="secondary">
+
+  <span class="nologig-brand">NoLogig</span>
+
+  <nav mat-tab-nav-bar>
+
+    <a mat-tab-link *ngFor="let r of routes; index as i" 
+      #rla="routerLinkActive"
+      routerLinkActive="active-route"
+      [routerLink]="r.path" 
+      [active]="rla.isActive">
+      <mat-icon>{{navIcons[i]}}</mat-icon>
+    </a>
+  </nav>
+
+  <span class="between-spacer"></span>
+</mat-toolbar>

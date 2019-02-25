@@ -1,0 +1,37 @@
+mat-toolbar {
+    width: 100vw;
+    min-height: 49px;
+    height: 49px;
+    padding: 0 0 0 4px;
+    color: #0ff;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    z-index: 3;
+}
+
+mat-toolbar::-webkit-scrollbar {
+    display: none;
+}
+
+mat-toolbar a:hover mat-icon {
+    transform: scale(1.2);
+    color: #0ff;
+}
+
+.nologig-brand {
+    font-size: .8rem;
+    border-color: #444;
+    border-width: 1px;
+    border-right-style: solid;
+    padding: 0 4px 0 4px;
+}
+
+.active-route mat-icon {
+    color: #0ff;
+    transform: scale(1.4);
+    opacity: 1;
+}
+
+/* .mat-tab-link {
+    padding: 0;
+  } */

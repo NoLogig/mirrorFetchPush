@@ -1,0 +1,62 @@
+
+<mat-card>
+
+    <mat-card-header>
+        <div mat-card-avatar>
+          <mat-icon md-36>signal_cellular_null</mat-icon>
+        </div>
+      <mat-card-title>Pythagoras's Theorem</mat-card-title>
+      <mat-card-subtitle>Right Triangle</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="tri">
+        
+        <mat-slider class="tri-side a"
+        [disabled]="'false'"
+        [invert]="'false'"
+        [max]=""
+        [min]=""
+        [step]=""
+        [thumbLabel]="'true'"
+        [tickInterval]=""
+        [(ngModel)]="rightTriShape.ankathete"
+        [vertical]="'false'"
+        title="BC value a" ></mat-slider>
+  
+        <mat-slider class="tri-side b"
+        [disabled]="'false'"
+        [invert]="'true'"
+        [max]=""
+        [min]=""
+        [step]=""
+        [thumbLabel]="'true'"
+        [tickInterval]=""
+        [(ngModel)]="rightTriShape.gegenkathete"
+        [vertical]="'true'"
+        title="AC value b"></mat-slider>
+        
+        <mat-slider class="tri-side c"
+        [disabled]="'false'"
+        [invert]="'false'"
+        [max]=""
+        [min]=""
+        [step]=""
+        [thumbLabel]="'true'"
+        [tickInterval]=""
+        [(ngModel)]="rightTriShape.hypothenuse"
+        [vertical]="'false'"
+        title="AB value c" ></mat-slider>
+    
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button mat-button (click)="rightTriShape = pythagoras({ankathete: undefined, gegenkathete: rightTriShape.gegenkathete, hypothenuse: rightTriShape.hypothenuse})">a: {{rightTriShape.ankathete}}</button>
+        <button mat-button (click)="rightTriShape = pythagoras({ankathete: rightTriShape.ankathete, gegenkathete: undefined, hypothenuse: rightTriShape.hypothenuse})">b: {{rightTriShape.gegenkathete}}</button>
+        <button mat-button (click)="rightTriShape = pythagoras({ankathete: rightTriShape.ankathete, gegenkathete: rightTriShape.gegenkathete, hypothenuse: undefined})">c: {{rightTriShape.hypothenuse}}</button>
+        
+        <button mat-button (click)="''">alpha</button>
+        <!-- <button mat-button (click)="''">beta:  {{ rad2deg(betaRadAngle(rightTriShape.ankathete, rightTriShape.gegenkathete)) | number: '.2' }}</button> -->
+    </mat-card-actions>
+  
+  </mat-card>
+  
