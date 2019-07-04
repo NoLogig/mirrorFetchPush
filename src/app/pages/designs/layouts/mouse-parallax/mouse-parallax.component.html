@@ -1,5 +1,5 @@
 
-<div class="mouse-bg background"></div>
-<div class="mouse-bg foreground"></div>
-<div class="mouse-bg fore-foreground"></div>
-<div class="mouse-bg fore-fore-foreground"></div>
+<div class="mouse-bg background" (mousemove)="this.parallaxMouse($event,{ moveFactor: 5 })"></div>
+<div class="mouse-bg foreground" (mousemove)="this.parallaxMouse($event,{ moveFactor: 10 })"></div>
+<div class="mouse-bg fore-foreground" (mousemove)="this.parallaxMouse($event,{ moveFactor: 15 })"></div>
+<div class="mouse-bg fore-fore-foreground" (mousemove)="this.parallaxMouse($event,{ moveFactor: 20 })"></div>

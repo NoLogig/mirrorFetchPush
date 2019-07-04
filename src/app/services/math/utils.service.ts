@@ -110,7 +110,6 @@ export class MathUtilsService {
     wieferichPrimes = [1093, 3511];
     wilsonPrimes = [5, 13, 563];
 
-
     ratio = {
         golden: {
             main: this.goldenMain,
@@ -174,6 +173,7 @@ export class MathUtilsService {
     /**
      * Array - 2D Matrix
      * @example  x/y x0_x1_x2_x3
+     *
      *           y0 |▓▓▒▓▓▒▓▓▒▓▓|   0 -  3
      *           y1 |▓▓▒▓▓▒▓▓▒▓▓|   4 -  7
      *           y2 |▓▓▒▓▓▒2D|__|   8 - 11
@@ -210,41 +210,36 @@ export class MathUtilsService {
     // set3D = (x: number, y: number, z: number, cols: number, deeps: number, value: any): void => this.MYARR[(y*cols+x) + (cols*deeps*z)] = value;
 
 
-    /**
-     * Clamp a value to Min/Max
-     * @example if(n < min) return min;
-     *          if(n > max) return max;
-     *          return value;
+    /** Clamp a value to Min/Max
+     * @example
+     *     if(n < min) return min;
+     *     if(n > max) return max;
+     *     return value;
      */
     clamp = (n: number, min: number, max: number): number => Math.min(Math.max(n, Math.min(min, max)), Math.max(min, max));
 
-    /**
-     * Lock a value to Min/Max.
+    /** Lock a value to Min/Max.
      * @description Check whether a value has gone off Min/Max (canvas edges).
-     *     If so, it makes the value wrap around to the opposite.
-     * @example -  Min  Val   Max
-     *            -5    x    23
-     *       Max ←|____|____|→ Min
+     *     If so, it wrap around the value to the opposite.
      */
     lock = (n: number, min: number, max: number): number => {
         if (n > min && n < max) { return n; }
         if (n > max) { return min; }
         return max;
     }
-
-    /**
-     * Linear Normalization convert a value from a range into a normed value between 0-1
+    /** Linear Normalization:
+     * Convert a value from a range into a normed value between 0-1
      * @example  Min  Val    Max
      *           4    x      23  ← param x, min, max
      *           |____|______|
      *           |    |      |
      *           0    ?      1   ← return
-     * Hint: Math.min() & Math.max()
+     * // Hint: Math.min() & Math.max()
      */
     norm = (value: number, minimum: number, maximum: number): number => ((value - minimum) / (maximum - minimum));
 
-    /**
-     * Linear Interpolation does the opposite of normalization
+    /** Linear Interpolation:
+     * Does the opposite of normalization. convert a normed value into a range
      * @example Min  Val    Max
      *          0    ?      10   ← return
      *          |____|______|
@@ -253,7 +248,7 @@ export class MathUtilsService {
      */
     lerp = (normed: number, minimum: number, maximum: number): number => ((maximum - minimum) * normed + minimum);
 
-    /**
+    /** Linear Transformation:
      * Convert a value from one scale into another scale
      * @example Min   Val    Max
      *          src   x      src  ← params = x, src & dst min/max
@@ -261,7 +256,8 @@ export class MathUtilsService {
      *          |     |      |
      *          dst   ?      dst  ← return
      */
-    rangesMapper = (val: number, srcMin: number, srcMax: number, destMin: number, destMax: number): number => this.lerp(this.norm(val, srcMin, srcMax), destMin, destMax);
+    range = (val: number, srcMin: number, srcMax: number, destMin: number, destMax: number): number => this.lerp(this.norm(val, srcMin, srcMax), destMin, destMax);
+
 
     /**
     let dx = p1.x - p0.x,
@@ -280,131 +276,16 @@ export class MathUtilsService {
      */
     distanceXY = (x0: number, y0: number, x1: number, y1: number): number => Math.sqrt(((x1 - x0) ** 2) + ((y1 - y0) ** 2));
 
-    /**
-     * Radiant to Degrees converter
+    /** Radiant to Degrees converter
      * 1 radiant = 57.295°
      * @example ƒ(deg) = 180 / π × Angle(rad)
      */
     rad2deg = (rad: number): number => rad * 180 / Math.PI;
 
-    /**
-     * Degrees to Radiant converter
+    /** Degrees to Radiant converter
      * @example ƒ(rad) = π / 180 × Angle(deg)
      */
     deg2rad = (deg: number): number => deg * Math.PI / 180;
-
-    /**
-     * @param triRight IPythagorasRightTri Object
-     */
-    pythagoras(triRight: ITheoremPythagoras): ITriangle {
-
-        let adjacent = triRight.adjacent,
-            opposite = triRight.opposite,
-            hypotenuse = triRight.hypotenuse;
-
-        if (!adjacent) {
-            // √( a² = c² - b² )
-            adjacent = Math.sqrt((hypotenuse ** 2) - (opposite ** 2));
-            return { adjacent, opposite, hypotenuse };
-        }
-        if (!opposite) {
-            // √( b² = c² - a² )
-            opposite = Math.sqrt((hypotenuse ** 2) - (adjacent ** 2));
-            return { adjacent, opposite, hypotenuse };
-        }
-        // √( c² = a² + b² )
-        hypotenuse = Math.sqrt((adjacent ** 2) + (opposite ** 2));
-        return { adjacent, opposite, hypotenuse };
-    }
-
-    /**
-     * Right Triangle - Gegeben: Gegenkathete b & Winkel α in Radiant
-     * @param adjacent Side a
-     * @param alphaRad Angle α in Radiant
-     * @return Ankathete side a
-     */
-    triRightAnka_GegenArad(gegenkathete, alphaRad) { return gegenkathete / Math.tan(alphaRad); }
-    /**
-     * Right Triangle - Gegeben: Gegenkathete b & Winkel α in Radiant
-     * @param gegenkathete Side a
-     * @param alphaRad Angle α in Radiant
-     * @return Hypothenuse side c
-     */
-    triRightHypo_GegenArad(gegenkathete, alphaRad) { return gegenkathete / Math.sin(alphaRad); }
-    /**
-     * Right Triangle - Gegeben: Ankathete a & Angle α in Radiant
-     * @param ankathete Side a
-     * @param alphaRad Angle α in Radiant
-     * @return Gegenkathete side b
-     */
-    triRightGegen_AnkaArad(ankathete, alphaRad): number { return ankathete * Math.tan(alphaRad); }
-    /**
-     * Right Triangle - Gegeben: Ankathete a & Angle α in Radiant
-     * @param ankathete Side a
-     * @param alphaRad Angle α in Radiant
-     * @return Hypothenuse side c
-     */
-    triRightHypo_AnkaGegen(ankathete, alphaRad): number { return ankathete / Math.cos(alphaRad); }
-    /**
-     * Right Triangle - Gegeben: Ankathete a und Hypotenuse c
-     * @param ankathete Side a
-     * @param hypothenuse Side c
-     * @return α angle in Radiant
-     */
-    triRightArad_AnkaHypo(ankathete, hypothenuse): number { return Math.acos(ankathete / hypothenuse); }
-    /**
-     * Right Triangle - Gegeben: Katheten a, b
-     * @param ankathete Side a
-     * @param gegenkathete Side b
-     * @return α angle in Radiant
-     */
-    triRightArad_AnkaGegen(ankathete: number, gegenkathete: number): number { return Math.atan(gegenkathete / ankathete); }
-    cArctangent_AnkaGegen(ankathete: number, gegenkathete: number): number { return Math.atan2(gegenkathete, ankathete); }
-    /**
-     * Right Triangle - Gegeben: Katheten a, b
-     * @param ankathete Side a
-     * @param gegenkathete Side b
-     * @return β angle in Radiant
-     */
-    triRightBrad_AnkaGegen(ankathete: number, gegenkathete: number): number { return Math.atan(ankathete / gegenkathete); }
-    /**
-     * Triangle - Gegeben: Zwei Seiten a, b und Winkel y
-     * @param ankathete Side a
-     * @param gegenkathete Side b
-     * @return β angle in Radiant
-     */
-    triAradC_AnkaGegen(a: number, b: number, gammaDeg: number): number {
-
-        let c = Math.sqrt(a ** 2 + b ** 2 - (2 * a * b * (Math.cos(gammaDeg))));
-        let alphaRad = Math.asin(a * Math.sin(gammaDeg));
-        return c;
-    }
-    /**
-     * Triangle - Gegeben: Winkel ß, y und Seite c
-     * @param c Side c
-     * @param gammaDeg y angle in Radiant
-     * @param betaDeg β angle in Radiant
-     */
-    triAradB_AnkaGegen(c: number, gammaDeg: number, betaDeg: number): number {
-
-        let b = ((c * Math.sin(betaDeg)) / Math.sin(gammaDeg));
-        let alphaDeg = 180 - gammaDeg - betaDeg;
-        let a = (b * Math.sin(alphaDeg)) / Math.sin(betaDeg);
-        return c;
-    }
-    /**
-     * Triangle - Gegeben: Winkel ß, y und Seite c
-     * @param c Side c
-     * @param gammaDeg y angle in Radiant
-     * @param betaDeg β angle in Radiant
-     */
-    triAradBradYrad_AnkaGegen(c: number, a: number, b: number): number {
-
-        let Adeg = Math.acos((b ** 2 + c ** 2 - a ** 2) / (2 * a * b));
-        let BDeg = Math.acos((a ** 2 + c ** 2 - b ** 2) / (2 * b * c));
-        let Ydeg = Math.acos((a ** 2 + b ** 2 - c ** 2) / (2 * a * b));
-        return c;
-    }
 
 
     /* #### n! Factorial algorithms ####
@@ -423,14 +304,12 @@ export class MathUtilsService {
         );
         // ToDo: Test: <div>{{ counter$ | async }}! = {{ factorial$ | async }}</div>
     }
-
     factorialRecursion(n: number): number {
 
         if (n < 0) { return -1; }
         if (n === 0 || n === 1) { return 1; }
         return (n * this.factorialRecursion(n - 1));
     }
-
     factorialWhile(n: number): number {
 
         let f = n;
@@ -439,7 +318,6 @@ export class MathUtilsService {
         while (n > 1) { f *= --n; }
         return f;
     }
-
     factorialFor(n: number): number {
 
         if (n === 0 || n === 1) { return 1; }
@@ -533,7 +411,6 @@ export class MathUtilsService {
         }
         return true;
     }
-
     /**
      * Creates a new primality instance.
      * @param nsa A number, string, or array to check the primality of.
@@ -557,7 +434,6 @@ export class MathUtilsService {
         }
         return this.isPrime(nsa);
     }
-
     /**
      * Checks if `n` is prime.
      * @param n The value to check
@@ -571,7 +447,6 @@ export class MathUtilsService {
         if (n !== this.leastFactor(n)) { return false; }
         return true;
     }
-
     /**
      * Finds the smallest factor of `n`
      * @param n The value to check
@@ -601,7 +476,6 @@ export class MathUtilsService {
         }
         return n;
     }
-
     /**
      * Checks if `a` and `b` are primes which differ by `difference`.
      * @param a First of the pair
@@ -783,6 +657,120 @@ export class MathUtilsService {
         return false;
     }
 
+    /**
+     * @param triRight IPythagorasRightTri Object
+     */
+    pythagoras(triRight: ITheoremPythagoras): ITriangle {
+
+        let adjacent = triRight.adjacent,
+            opposite = triRight.opposite,
+            hypotenuse = triRight.hypotenuse;
+
+        if (!adjacent) {
+            // √( a² = c² - b² )
+            adjacent = Math.sqrt((hypotenuse ** 2) - (opposite ** 2));
+            return { adjacent, opposite, hypotenuse };
+        }
+        if (!opposite) {
+            // √( b² = c² - a² )
+            opposite = Math.sqrt((hypotenuse ** 2) - (adjacent ** 2));
+            return { adjacent, opposite, hypotenuse };
+        }
+        // √( c² = a² + b² )
+        hypotenuse = Math.sqrt((adjacent ** 2) + (opposite ** 2));
+        return { adjacent, opposite, hypotenuse };
+    }
+
+    /**
+     * Right Triangle - Gegeben: Gegenkathete b & Winkel α in Radiant
+     * @param adjacent Side a
+     * @param alphaRad Angle α in Radiant
+     * @return Ankathete side a
+     */
+    triRightAnka_GegenArad(gegenkathete, alphaRad) { return gegenkathete / Math.tan(alphaRad); }
+    /**
+     * Right Triangle - Gegeben: Gegenkathete b & Winkel α in Radiant
+     * @param gegenkathete Side a
+     * @param alphaRad Angle α in Radiant
+     * @return Hypothenuse side c
+     */
+    triRightHypo_GegenArad(gegenkathete, alphaRad) { return gegenkathete / Math.sin(alphaRad); }
+    /**
+     * Right Triangle - Gegeben: Ankathete a & Angle α in Radiant
+     * @param ankathete Side a
+     * @param alphaRad Angle α in Radiant
+     * @return Gegenkathete side b
+     */
+    triRightGegen_AnkaArad(ankathete, alphaRad): number { return ankathete * Math.tan(alphaRad); }
+    /**
+     * Right Triangle - Gegeben: Ankathete a & Angle α in Radiant
+     * @param ankathete Side a
+     * @param alphaRad Angle α in Radiant
+     * @return Hypothenuse side c
+     */
+    triRightHypo_AnkaGegen(ankathete, alphaRad): number { return ankathete / Math.cos(alphaRad); }
+    /**
+     * Right Triangle - Gegeben: Ankathete a und Hypotenuse c
+     * @param ankathete Side a
+     * @param hypothenuse Side c
+     * @return α angle in Radiant
+     */
+    triRightArad_AnkaHypo(ankathete, hypothenuse): number { return Math.acos(ankathete / hypothenuse); }
+    /**
+     * Right Triangle - Gegeben: Katheten a, b
+     * @param ankathete Side a
+     * @param gegenkathete Side b
+     * @return α angle in Radiant
+     */
+    triRightArad_AnkaGegen(ankathete: number, gegenkathete: number): number { return Math.atan(gegenkathete / ankathete); }
+
+    cArctangent_AnkaGegen(ankathete: number, gegenkathete: number): number { return Math.atan2(gegenkathete, ankathete); }
+    /**
+     * Right Triangle - Gegeben: Katheten a, b
+     * @param ankathete Side a
+     * @param gegenkathete Side b
+     * @return β angle in Radiant
+     */
+    triRightBrad_AnkaGegen(ankathete: number, gegenkathete: number): number { return Math.atan(ankathete / gegenkathete); }
+    /**
+     * Triangle - Gegeben: Zwei Seiten a, b und Winkel y
+     * @param ankathete Side a
+     * @param gegenkathete Side b
+     * @return β angle in Radiant
+     */
+    triAradC_AnkaGegen(a: number, b: number, gammaDeg: number): number {
+
+        let c = Math.sqrt(a ** 2 + b ** 2 - (2 * a * b * (Math.cos(gammaDeg))));
+        let alphaRad = Math.asin(a * Math.sin(gammaDeg));
+        return c;
+    }
+    /**
+     * Triangle - Gegeben: Winkel ß, y und Seite c
+     * @param c Side c
+     * @param gammaDeg y angle in Radiant
+     * @param betaDeg β angle in Radiant
+     */
+    triAradB_AnkaGegen(c: number, gammaDeg: number, betaDeg: number): number {
+
+        let b = ((c * Math.sin(betaDeg)) / Math.sin(gammaDeg));
+        let alphaDeg = 180 - gammaDeg - betaDeg;
+        let a = (b * Math.sin(alphaDeg)) / Math.sin(betaDeg);
+        return c;
+    }
+    /**
+     * Triangle - Gegeben: Winkel ß, y und Seite c
+     * @param c Side c
+     * @param gammaDeg y angle in Radiant
+     * @param betaDeg β angle in Radiant
+     */
+    triAradBradYrad_AnkaGegen(c: number, a: number, b: number): number {
+
+        let Adeg = Math.acos((b ** 2 + c ** 2 - a ** 2) / (2 * a * b));
+        let BDeg = Math.acos((a ** 2 + c ** 2 - b ** 2) / (2 * b * c));
+        let Ydeg = Math.acos((a ** 2 + b ** 2 - c ** 2) / (2 * a * b));
+        return c;
+    }
+
     randomRange(min, max) {
         return min + Math.random() * (max - min);
     }
@@ -938,8 +926,7 @@ export function n_delta() { }
  */
 export function n_echo() { }
 
-/**
- * Masked Numbers
+/** Masked Numbers
  * @example const str1 = '5';
  * console.log(str1.padStart(2, '0'));
  * // expected output: "05"

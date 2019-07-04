@@ -4,7 +4,7 @@ interface IPoint {
   x: number;
   y: number;
 }
-
+const PI = Math.PI;
 const FULL_ARC = Math.PI * 2;
 
 @Component({
